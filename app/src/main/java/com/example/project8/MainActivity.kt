@@ -28,21 +28,21 @@ class MainActivity : AppCompatActivity(), NewsItemClicked {
     }
 
     private fun fetchData(){
-        val url = "https://newsdata.io/api/1/news?apikey=pub_490283436ab00426883e3bb0aea3082f5261&language=en"
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,
-            url,
+            Constants.url,
             null,
             {
-                val newsJsonArray = it.getJSONArray("results")
+                it.printlog()
+                val newsJsonArray = it.getJSONArray("articles")
                 val newsArray = ArrayList<News>()
                 for(i in 0 until newsJsonArray.length()) {
                     val newsJsonObject = newsJsonArray.getJSONObject(i)
                     val news = News(
                         newsJsonObject.getString("title"),
-                        newsJsonObject.getString("creator"),
-                        newsJsonObject.getString("link"),
-                        newsJsonObject.getString("image_url")
+                        newsJsonObject.getString("description"),
+                        newsJsonObject.getString("url"),
+                        newsJsonObject.getString("urlToImage")
                     )
                     if(news.image_url!="null")
                        newsArray.add(news)
